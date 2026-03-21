@@ -1,0 +1,33 @@
+[Message:   BepInEx] BepInEx 5.4.23.5 - Neon White (3/11/2026 9:18:03 PM)
+[Info   :   BepInEx] Running under Unity v2020.3.16.302446
+[Info   :   BepInEx] CLR runtime version: 4.0.30319.17020
+[Info   :   BepInEx] Supports SRE: False
+[Info   :   BepInEx] System platform: Bits64, Windows
+[Message:   BepInEx] Preloader started
+[Info   :   BepInEx] Loaded 1 patcher method from [BepInEx.Preloader 5.4.23.5]
+[Info   :   BepInEx] 1 patcher plugin loaded
+[Info   :   BepInEx] Patching [UnityEngine.CoreModule] with [BepInEx.Chainloader]
+[Message:   BepInEx] Preloader finished
+[Message:   BepInEx] Chainloader ready
+[Message:   BepInEx] Chainloader started
+[Info   :   BepInEx] 1 plugin to load
+[Info   :   BepInEx] Loading [Leaderboard Patch 0.2.1.0]
+[Info   :Leaderboard Patch] Plugin loaded!
+[Message:   BepInEx] Chainloader startup complete
+[Info   :Leaderboard Patch] 0
+[Info   :Leaderboard Patch] 10
+[Info   :Leaderboard Patch] Same Name!
+[Info   :Leaderboard Patch] 20
+[Info   :Leaderboard Patch] Same Name!
+[Info   :Leaderboard Patch] 30
+[Info   :Leaderboard Patch] Same Name!
+[Info   :Leaderboard Patch] 40
+[Info   :Leaderboard Patch] Same Name!
+[Info   :Leaderboard Patch] 50
+[Info   :Leaderboard Patch] Same Name!
+[Info   :Leaderboard Patch] 60
+[Info   :Leaderboard Patch] Same Name!
+[Info   :Leaderboard Patch] 70
+[Info   :Leaderboard Patch] Same Name!
+[Info   :Leaderboard Patch] 70
+[Info   :Leaderboard Patch] Same Name!
