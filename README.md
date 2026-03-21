@@ -9,4 +9,7 @@ WINEDLLOVERRIDES="winhttp=n,b" %command%
 * Add the right medal for each leaderboard's entry
 
 # Building
-Follow [BepInEx: 1. Setting up the development environment](https://docs.bepinex.dev/articles/dev_guide/plugin_tutorial/1_setup.html), then run dotnet build. Done!
+Follow [BepInEx: 1. Setting up the development environment](https://docs.bepinex.dev/articles/dev_guide/plugin_tutorial/1_setup.html), then run "dotnet build". Done!
+
+# Known Issues
+* "Prev." button doesn't work, to reset the leaderboard click on another level name.
