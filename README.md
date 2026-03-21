@@ -14,3 +14,6 @@ Follow [BepInEx: 1. Setting up the development environment](https://docs.bepinex
 # Known Issues
 * "Prev." button doesn't work, to reset the leaderboard click on another level name.
 * Every attempt that is made increases by 10 the entries of the leaderboard when inside a level. It is reset by exiting the level.
+
+# Download Leaderboards
+Download all the source code, then run the python file. Inside the folder Data/Leaderboards(Must be created manually!) you'll find the leaderboards for each level
