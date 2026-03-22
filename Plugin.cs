@@ -1,13 +1,10 @@
-using System.Diagnostics;
 using System.IO;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using UnityEngine;
-using UnityEngine.UIElements;
 namespace leaderboardPatch
 {
-    [BepInPlugin("leaderboardpatch", "Leaderboard Patch", "1.0.0.0")]
+    [BepInPlugin("leaderboardpatch", "Leaderboard Patch", "1.0.1.0")]
     [BepInProcess("Neon White.exe")]
     public class Plugin : BaseUnityPlugin
     {
@@ -22,22 +19,23 @@ namespace leaderboardPatch
             Logger.LogInfo($"Plugin loaded!");
             
             var harmony = new Harmony("leaderboardpatch");
+            harmony.PatchAll(typeof(Patch_UpdateButtons));
             harmony.PatchAll(typeof(Patch_LeftButtonPressed));
             harmony.PatchAll(typeof(Patch_RightButtonPressed));
             harmony.PatchAll(typeof(Patch_LastPageButton));
             harmony.PatchAll(typeof(Patch_FirstPageButton));
             harmony.PatchAll(typeof(Patch_RetrieveLevelName));
             harmony.PatchAll(typeof(Patch_DisplayScores_AsyncRecieve));
-
         }
         public static class DataTransfer
         {
-            public static string levelName;
+            public static string levelName = "Movement";
             public static string oldLevelName;
             public static int start = 0;
             public static int difference = 0; 
             public static bool isLastPageButtonPressed = false;
             public static bool isNextPageButtonPressed = false;
+            public static bool isPreviousPageButtonPressed = false;
         }
         [HarmonyPatch(typeof(Leaderboards), "DisplayScores_AsyncRecieve")]
         public class Patch_DisplayScores_AsyncRecieve
@@ -58,6 +56,15 @@ namespace leaderboardPatch
                         DataTransfer.start -= 10; 
                     }
                     DataTransfer.isNextPageButtonPressed = false;
+                }
+                if (DataTransfer.isPreviousPageButtonPressed == true)
+                {
+                    DataTransfer.start -= 10;
+                    if (DataTransfer.start < 0)
+                    {
+                        DataTransfer.start = 0; 
+                    }
+                    DataTransfer.isPreviousPageButtonPressed = false;
                 }
                 if (DataTransfer.isLastPageButtonPressed == true)
                 {
@@ -133,12 +140,23 @@ namespace leaderboardPatch
                 Logger.LogInfo("Level Name from namefield: " + (string)nameField.GetValue(levelData));
             }
         }
+        [HarmonyPatch(typeof(Leaderboards), "UpdateButtons")]
+        public class Patch_UpdateButtons
+        {   
+            static void Postfix(Leaderboards __instance)
+            {
+                __instance.endButton.interactable = true;
+		        __instance.startButton.interactable = true;
+		        __instance.leftArrowButton.interactable = true;
+		        __instance.rightArrowButton.interactable = true;
+            }
+        }
         [HarmonyPatch(typeof(Leaderboards), "OnLeftArrowPressed")]
         public class Patch_LeftButtonPressed
         {
             static void Postfix()
             {
-                DataTransfer.start = DataTransfer.start - 10;
+                DataTransfer.isPreviousPageButtonPressed = true;
                 Logger.LogInfo("Previous button pressed!");
             }
         }
