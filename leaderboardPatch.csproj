@@ -4,7 +4,7 @@
     <TargetFramework>net472</TargetFramework>
     <AssemblyName>leaderboardPatch</AssemblyName>
     <Product>Leaderboard Patch</Product>
-    <Version>0.2.1.0</Version>
+    <Version>1.0.1.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <RestoreAdditionalProjectSources>
