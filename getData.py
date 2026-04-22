@@ -60,28 +60,40 @@ def retrieve_leaderboard(array_id, array_names):
             records_data = fetch_json(url)  
             if os.path.isfile(file_path):
                 print("Files for chapter exist, skipping")
-                return           
-            for run_entry in records_data.get("data", {}).get("runs", []):
-                time_seconds = run_entry["run"]["times"]["primary_t"]
-                for player in run_entry["run"]["players"]:
-                    user_data = fetch_json(player["uri"])
-                    try:
-                        username = user_data["data"]["names"]["international"]
-                        country_raw = user_data["data"]["location"]["country"]["code"]
-                        country = country_raw.split("/")
-                        with open(file_path, "a", encoding="utf-8") as f:
-                            f.write(f"{username},{time_seconds},{country[0].upper()}\n")
-                        flags_url = f"{FLAGS_API_BASE}/{country[0].upper()}/flat/64.png"
-                        response = requests.get(flags_url)
-                        if response.status_code != 200:
-                            raise Exception(f"API request failed for {flags_url} with status {response.status_code}")
-                        with open(f"Data/Flags/{country[0].upper()}.png", "wb") as f:
-                            f.write(response.content)
-                    except Exception as e:
-                        print(f"Exception encountered: {e}")
+            else:              
+                for run_entry in records_data.get("data", {}).get("runs", []):
+                    time_seconds = run_entry["run"]["times"]["primary_t"]
+                    for player in run_entry["run"]["players"]:
+                        user_data = fetch_json(player["uri"])
+                        try:
+                            username = user_data["data"]["names"]["international"]
+                            country_raw = user_data["data"]["location"]["country"]["code"]
+                            country = country_raw.split("/")
+                            with open(file_path, "a", encoding="utf-8") as f:
+                                f.write(f"{username},{time_seconds},{country[0].upper()}\n")
+                            flags_url = f"{FLAGS_API_BASE}/{country[0].upper()}/flat/64.png"
+                            response = requests.get(flags_url)
+                            if response.status_code != 200:
+                                raise Exception(f"API request failed for {flags_url} with status {response.status_code}")
+                            with open(f"Data/Flags/{country[0].upper()}.png", "wb") as f:
+                                f.write(response.content)
+                        except Exception as e:
+                            print(f"Exception encountered: {e}")
     except Exception as e:
         print(f"Exception encountered: {e}")
+def verify_files(array):
+        array_names = globals().get(f"{array}_NAMES")
+        array_ids = globals().get(f"{array}_IDS")
+        for i in range(len(array_names)):
+            name = array_names[i]
+            file_path = f"Data/Leaderboards/{name}.txt"
+            if not os.path.isfile(file_path):
+               print(f"File for {name} does not exist")    
+               retrieve_leaderboard(array_ids, array_names)
+               
+                
 def main():
+    
     retrieve_leaderboard(REBIRTH_IDS, REBIRTH_NAMES)
     retrieve_leaderboard(KILLER_INSIDE_IDS, KILLER_INSIDE_NAMES)           
     retrieve_leaderboard(ONLY_SHALLOW_IDS, ONLY_SHALLOW_NAMES)          
@@ -97,7 +109,23 @@ def main():
     retrieve_leaderboard(RED_SIDEQUESTS_IDS, RED_SIDEQUESTS_NAMES) 
     retrieve_leaderboard(VIOLET_SIDEQUESTS_IDS, VIOLET_SIDEQUESTS_NAMES) 
     retrieve_leaderboard(YELLOW_SIDEQUESTS_IDS, YELLOW_SIDEQUESTS_NAMES)      
+    verify_files("REBIRTH")
+    verify_files("KILLER_INSIDE")
+    verify_files("ONLY_SHALLOW")
+    verify_files("THE_OLD_CITY")
+    verify_files("THE_BURN_THAT_CURES")
+    verify_files("COVENANT")
+    verify_files("RECKONING")
+    verify_files("BENEDICTION")
+    verify_files("APOCRYPHA")
+    verify_files("THE_THIRD_TEMPLE")
+    verify_files("THOUSAND_POUND_BUTTEFLY")
+    verify_files("HAND_OF_GOD")
+    verify_files("RED_SIDEQUESTS")
+    verify_files("VIOLET_SIDEQUESTS")
+    verify_files("YELLOW_SIDEQUESTS")
     with open("Data/Leaderboards/fallback.txt", "w", encoding="utf-8") as f:
         f.write("NoEntry,1.337,US") 
+
 if __name__ == "__main__":
     main()
